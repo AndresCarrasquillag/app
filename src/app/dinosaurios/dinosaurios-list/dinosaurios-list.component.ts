@@ -10,6 +10,8 @@ import { DinosauriosService } from '../dinosaurios.service';
 export class DinosauriosListComponent implements OnInit {
 
   dinosaurios: Array<Dinosaurio> = [];
+  carn:number = 0;
+  veg:number = 0;
 
   selectedDinosaurio!: Dinosaurio;
   selected:Boolean = false;
@@ -22,6 +24,20 @@ export class DinosauriosListComponent implements OnInit {
     });
   }
 
+  getConteo():void{
+    let carnivoro: number = 0;
+    let veg: number = 0;
+    this.dinosaurioService.getDinos().subscribe((dinosaurios) => {
+      dinosaurios.forEach((dinosaurio) => {if (dinosaurio.feeding == "carnivoro") {
+        carnivoro = carnivoro + 1;
+      }
+      else {
+        veg = veg + 1;
+      }})
+      this.carn = carnivoro;
+      this.veg = veg;
+    });
+  }
   onSelected(dinosaurio: Dinosaurio): void{
     this.selected = true;
     this.selectedDinosaurio = dinosaurio;
